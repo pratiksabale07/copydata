@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import './App.css';
 import Alert from './components/Alert';
-import { db } from './components/config';
+import { textDb } from './components/config'
 import { doc, setDoc, getDoc } from "firebase/firestore";
 
 
@@ -11,7 +11,7 @@ function App() {
 
 
   const getData = async () => {
-    const docRef = doc(db, "data", "LA");
+    const docRef = doc(textDb, "data", "LA");
     const docSnap = await getDoc(docRef)
     if (docSnap.exists()) {
       let dataGot = docSnap.data()
@@ -20,6 +20,7 @@ function App() {
       console.log("No such document!");
     }
   }
+
   const showAlert = (message, type) => {
     setAlert({
       msg: message,
@@ -39,13 +40,14 @@ function App() {
   }
 
   const handleSave = () => {
-    setDoc(doc(db, "data", "LA"), {
+    setDoc(doc(textDb, "data", "LA"), {
       data: text
     }).then(() => {
       console.log('Data Submited');
     })
     showAlert("Text Saved", "success");
   }
+
   return (
     <div className='container m-4'>
       <Alert alert={alert} />
